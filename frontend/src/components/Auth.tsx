@@ -1,10 +1,23 @@
 import { useState, type ChangeEvent } from "react";
-import { signupInput } from "shraddha-common";
+import z from "zod";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { Url, userUrl } from "../config";
 // import { mailToUser } from "../Hooks/sendMail";
 import { useNavigate } from "react-router-dom";
+
+export const signupInput = z.object({
+  name: z.string(),
+  otp: z
+    .number()
+    .int()
+    .refine((val) => val >= 1000 && val < 9999, {
+      message: "Must be a 4-digit number",
+    }),
+  email: z.string().email(),
+  password: z.string().min(6, "min 6 letter required"),
+});
+
 type input = {
   authtype: "signin" | "signup";
 };
