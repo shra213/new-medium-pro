@@ -1,8 +1,6 @@
-import React from "react";
 import Signup from "./pages/Signup";
 import Signin from "./pages/Signin";
-import AuthLayout from "./Authlayoiut";
-import MyPosts from "./components/myPosts";
+import MyPosts from "./components/MyPosts"; // exact case match!
 import Blog from "./pages/Blog";
 import { AnimatePresence } from "framer-motion";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";

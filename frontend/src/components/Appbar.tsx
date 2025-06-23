@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { blogsUrl } from "../config";
-import { useState } from "react";
 export function Appbar({
   id,
   title,
@@ -103,7 +102,9 @@ export function Appbar({
               ? "Submit"
               : "Write"}
           </button>
-          <Circle name={localStorage.getItem("icon")} size="large" />{" "}
+          <Link to={"/myPosts"}>
+            <Circle name={localStorage.getItem("icon")} size="large" />{" "}
+          </Link>
         </div>
       </div>
     </>
