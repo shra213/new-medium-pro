@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { BlogCard } from "../components/BlogCard";
-import { Appbar } from "../components/Appbar";
 import { useBlogs } from "../Hooks/blogs";
 import { BlogCardSkeleton } from "../components/BlogCardSkeleton";
 export default function Blogs() {

@@ -1,6 +1,5 @@
 import { type BlogsType } from "./BlogCard";
 import { Circle } from "./BlogCard";
-import { Appbar } from "./Appbar";
 export function FullBLog({ blog }: { blog: BlogsType | null }) {
   return (
     <>

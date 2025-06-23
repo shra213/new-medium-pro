@@ -7,13 +7,11 @@ export function Appbar({
   id,
   title,
   content,
-  publish,
   setpublish,
 }: {
   id?: string;
   title?: string;
   content?: string;
-  publish?: boolean;
   setpublish?: any;
 }) {
   const location = useLocation();

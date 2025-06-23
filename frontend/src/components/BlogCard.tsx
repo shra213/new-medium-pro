@@ -1,8 +1,3 @@
-import { title } from "framer-motion/client";
-import { useLocation } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import { blogsUrl } from "../config";
-import axios from "axios";
 export interface BlogsType {
   id?: string;
   name?: string;

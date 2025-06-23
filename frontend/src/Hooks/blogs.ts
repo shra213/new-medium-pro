@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { type BlogsType } from "../components/BlogCard";
 import axios from "axios";
 import { blogsUrl } from "../config";
-import { useParams } from "react-router-dom";
 export function useBlog({ id }: { id: string }) {
   const [loading, setloading] = useState<boolean>(true);
   const [blog, setblog] = useState<BlogsType | null>(null);

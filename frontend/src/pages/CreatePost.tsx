@@ -27,13 +27,7 @@ export default function CreatePost() {
 
   return (
     <div>
-      <Appbar
-        id={id}
-        title={title}
-        content={content}
-        publish={publish}
-        setpublish={setpublish}
-      />
+      <Appbar id={id} title={title} content={content} setpublish={setpublish} />
       <div className="px-4 sm:px-6 md:px-0 w-full max-w-4xl mx-auto mt-12  text-gray-800">
         {/* Title Input */}
         <input
