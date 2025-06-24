@@ -38,7 +38,7 @@ export function Appbar({
     };
 
     verifyUser();
-  }, [navigate]);
+  }, []);
 
   const handleClick = async () => {
     if (location.pathname === "/create") {
