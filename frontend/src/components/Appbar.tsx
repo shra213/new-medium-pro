@@ -27,7 +27,7 @@ export function Appbar({
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
-        if (!res.data || !res.data.user) {
+        if (!res.data.userID) {
           throw new Error("User not authenticated");
         }
         // Optional: console.log("✅ User verified:", res.data.user);
