@@ -63,7 +63,7 @@ export function Appbar({
 
         setpublish(true);
         setTimeout(() => setpublish(false), 3000);
-        navigate("/");
+        navigate("/myPosts");
       } catch (err) {
         console.error("❌ Post failed:", err);
       }
