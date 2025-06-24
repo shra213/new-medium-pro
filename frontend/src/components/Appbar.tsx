@@ -1,8 +1,9 @@
+import { useEffect } from "react";
 import { Circle } from "./BlogCard";
-import { Link, useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { blogsUrl } from "../config";
+
 export function Appbar({
   id,
   title,
@@ -15,19 +16,38 @@ export function Appbar({
   setpublish?: any;
 }) {
   const location = useLocation();
-  // const { id, title, content } = location.state || {};
-
   const navigate = useNavigate();
-  //   const [publish, setpublish] = useState(false);
+
+  // 🔐 Verify user
+  useEffect(() => {
+    const verifyUser = async () => {
+      try {
+        const res = await axios.get(`${blogsUrl}/auth/me `, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        if (!res.data || !res.data.user) {
+          throw new Error("User not authenticated");
+        }
+        // Optional: console.log("✅ User verified:", res.data.user);
+      } catch (err) {
+        console.error("❌ Authentication failed:", err);
+        navigate("/signup");
+      }
+    };
+
+    verifyUser();
+  }, [navigate]);
+
   const handleClick = async () => {
-    console.log(`${blogsUrl}`);
     if (location.pathname === "/create") {
       try {
         const res = await axios.post(
           `${blogsUrl}`,
           {
-            title: title,
-            content: content,
+            title,
+            content,
           },
           {
             headers: {
@@ -36,16 +56,13 @@ export function Appbar({
           }
         );
         if (!res.data.post) {
-          console.log(res.data);
-          alert("signin again");
+          alert("Please sign in again");
           navigate("/signin");
           return;
         }
-        console.log(res.data.post);
+
         setpublish(true);
-        setTimeout(() => {
-          setpublish(false);
-        }, 3000);
+        setTimeout(() => setpublish(false), 3000);
         navigate("/");
       } catch (err) {
         console.error("❌ Post failed:", err);
@@ -55,9 +72,9 @@ export function Appbar({
         const res = await axios.put(
           `${blogsUrl}`,
           {
-            id: id,
-            title: title,
-            content: content,
+            id,
+            title,
+            content,
           },
           {
             headers: {
@@ -65,7 +82,6 @@ export function Appbar({
             },
           }
         );
-
         if (!res.data.post) {
           alert("Failed to update post");
           return;
@@ -83,28 +99,26 @@ export function Appbar({
   };
 
   return (
-    <>
-      <div className="px-10 mx-5 mt-3 py-2 items-center border-b border-gray-100  flex justify-between">
-        <Link to={"/"}>
-          <div className="text-2xl font-bold font-serif tracking-tight text-gray-800">
-            Medium
-          </div>
-        </Link>
-        <div className="flex gap-1 md:gap-6">
-          <button
-            onClick={handleClick}
-            className="bg-green-700 hover:bg-green-800 text-white text-sm px-2 md:px-4 rounded-full transition-all duration-200"
-          >
-            {location.pathname === "/create" ||
-            location.pathname === "/post/update"
-              ? "Submit"
-              : "Write"}
-          </button>
-          <Link to={"/myPosts"}>
-            <Circle name={localStorage.getItem("icon")} size="large" />{" "}
-          </Link>
+    <div className="px-10 mx-5 mt-3 py-2 items-center border-b border-gray-100 flex justify-between">
+      <Link to={"/"}>
+        <div className="text-2xl font-bold font-serif tracking-tight text-gray-800">
+          Medium
         </div>
+      </Link>
+      <div className="flex gap-1 md:gap-6">
+        <button
+          onClick={handleClick}
+          className="bg-green-700 hover:bg-green-800 text-white text-sm px-2 md:px-4 rounded-full transition-all duration-200"
+        >
+          {location.pathname === "/create" ||
+          location.pathname === "/post/update"
+            ? "Submit"
+            : "Write"}
+        </button>
+        <Link to={"/myPosts"}>
+          <Circle name={localStorage.getItem("icon")} size="large" />
+        </Link>
       </div>
-    </>
+    </div>
   );
 }

@@ -261,7 +261,6 @@ blogRouter.get("/bulk/all", async (c) => {
     );
   }
 });
-export default blogRouter;
 
 blogRouter.delete("/delete/:id", async (c) => {
   const id = c.req.param("id");
@@ -402,6 +401,23 @@ blogRouter.delete("/deleteAcc", async (c) => {
     );
   }
 });
+
+blogRouter.get("/auth/me", async (c) => {
+  const userID = c.get("userID");
+  if (!userID) {
+    return c.json(
+      {
+        msg: "user is not authenticated",
+      },
+      400
+    );
+  }
+  return c.json({
+    userID: userID,
+  });
+});
+
+export default blogRouter;
 
 // {
 //     "email":"ac@gmail",

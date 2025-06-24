@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { type BlogsType } from "../components/BlogCard";
 import axios from "axios";
 import { blogsUrl } from "../config";
+import { useNavigate } from "react-router-dom";
 export function useBlog({ id }: { id: string }) {
+  const navigate = useNavigate();
   const [loading, setloading] = useState<boolean>(true);
   const [blog, setblog] = useState<BlogsType | null>(null);
   useEffect(() => {
@@ -24,8 +26,8 @@ export function useBlog({ id }: { id: string }) {
         setloading(false);
         console.log(blog);
       } catch (e) {
-        alert("cant import");
         console.log(e);
+        navigate("/myPosts");
       }
     }
     fetchBlog();
