@@ -7,7 +7,7 @@
   //   "nodejs_compat"
   // ],
   "vars": {
-    
+    // "APP_PASS":"re_M6CBYCvN_GdooRz686AhrVkkYnkn3xGmN"
   },
   // "kv_namespaces": [
   //   {
@@ -16,6 +16,7 @@
   //   }
   // ],
   // "r2_buckets": [
+  
   //   {
   //     "binding": "MY_BUCKET",
   //     "bucket_name": "my-bucket"

@@ -51,6 +51,9 @@ export default function MyPosts() {
       );
       setMessage(res.data.msg || "Post updated");
       fetchPosts();
+      setTimeout(() => {
+        navigate("/");
+      }, 1500);
     } catch (err) {
       console.error(err);
       setMessage("❌ Failed to update post status");
@@ -72,6 +75,9 @@ export default function MyPosts() {
       });
       setMessage(res.data.msg || "🗑️ Post deleted");
       fetchPosts();
+      setTimeout(() => {
+        navigate("/");
+      }, 1500);
     } catch (err) {
       console.error(err);
       setMessage("❌ Failed to delete post");

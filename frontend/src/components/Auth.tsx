@@ -2,7 +2,7 @@ import { useState, type ChangeEvent } from "react";
 import z from "zod";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { Url, userUrl } from "../config";
+import { userUrl } from "../config";
 // import { mailToUser } from "../Hooks/sendMail";
 import { useNavigate } from "react-router-dom";
 
@@ -27,49 +27,51 @@ export default function Auth({ authtype }: input) {
     password?: string;
   }>({});
 
-  const [sysotp, setsysotp] = useState<number>();
-  const [userOtp, setUserOtp] = useState<number>();
-  const [showOtpBox, setShowOtpBox] = useState(false);
+  // const [sysotp, setsysotp] = useState<number>();
+  // const [userOtp, setUserOtp] = useState<number>();
+  // const [showOtpBox, setShowOtpBox] = useState(false);
   const navigate = useNavigate();
-  async function sendOtp() {
-    const sysotp = Math.floor(10000 + Math.random() * 90000);
-    setsysotp(sysotp);
+  // async function sendOtp() {
+  //   const sysotp = Math.floor(10000 + Math.random() * 90000);
+  //   setsysotp(sysotp);
 
-    const res = await axios.post(`${Url}api/send-otp`, {
-      email: input.email,
-      otp: sysotp,
-    });
-    console.log(res);
-    setShowOtpBox(true); // show OTP input block
-  }
+  //   const res = await axios.post(`${Url}api/send-otp`, {
+  //     email: input.email,
+  //     otp: sysotp,
+  //   });
+  //   console.log(res.data);
+  //   setShowOtpBox(true); // show OTP input block
+  // }
 
-  async function handleOtpSubmit() {
-    if (Number(userOtp) !== sysotp) {
-      alert("Incorrect OTP. Please try again.");
-      return;
-    }
+  // async function handleOtpSubmit() {
+  //   // if (Number(userOtp) !== sysotp) {
+  //   //   alert("Incorrect OTP. Please try again.");
+  //   //   return;
+  //   // }
 
-    try {
-      const res = await axios.post(`${userUrl}/signup`, input, {
-        headers: { "Content-Type": "application/json" },
-      });
+  //   try {
+  //     const res = await axios.post(`${userUrl}/signup`, input, {
+  //       headers: { "Content-Type": "application/json" },
+  //     });
 
-      const jwt = res.data.jwt;
-      if (!jwt) throw res.data.msg;
+  //     const jwt = res.data.jwt;
+  //     if (!jwt) throw res.data.msg;
 
-      localStorage.setItem("icon", res.data.user.name);
-      localStorage.setItem("token", jwt);
-      alert("✅ Account created successfully!");
-    } catch (err) {
-      alert(err);
-      if (err === "user already exist") {
-        navigate("/signin");
-      }
-      console.error(err);
-    }
-  }
+  //     localStorage.setItem("icon", res.data.user.name);
+  //     localStorage.setItem("token", jwt);
+  //     alert("✅ Account created successfully!");
+  //   } catch (err) {
+  //     alert(err);
+  //     if (err === "user already exist") {
+  //       navigate("/signin");
+  //     }
+  //     console.error(err);
+  //   }
+  // }
 
   async function onSubmit(e: any) {
+    console.log("jii");
+
     e.preventDefault();
 
     const suc = signupInput.safeParse(input);
@@ -82,7 +84,27 @@ export default function Auth({ authtype }: input) {
 
     if (authtype === "signup") {
       // 🔐 Only send OTP for SignUp
-      await sendOtp(); // wait for OTP to arrive
+      // await sendOtp(); // wait for OTP to arrive
+      console.log("suc");
+
+      try {
+        const res = await axios.post(`${userUrl}/signup`, input, {
+          headers: { "Content-Type": "application/json" },
+        });
+
+        const jwt = res.data.jwt;
+        if (!jwt) throw res.data.msg;
+
+        localStorage.setItem("icon", res.data.user.name);
+        localStorage.setItem("token", jwt);
+        alert("✅ Account created successfully!");
+      } catch (err) {
+        alert(err);
+        if (err === "user already exist") {
+          navigate("/signin");
+        }
+        console.error(err);
+      }
     } else {
       // 🧾 Normal SignIn
       try {
@@ -173,7 +195,7 @@ export default function Auth({ authtype }: input) {
           />
         </div>
 
-        {authtype === "signup" && showOtpBox ? (
+        {/* {authtype === "signup" && showOtpBox ? (
           <div className="mt-4 w-full sm:min-w-[145%] min-w-[110%]">
             <input
               type="number"
@@ -182,21 +204,22 @@ export default function Auth({ authtype }: input) {
               onChange={(e) => setUserOtp(Number(e.target.value))}
             />
             <button
-              onClick={handleOtpSubmit}
+              onClick={onSubmit}
               className="mt-3 w-full p-2 bg-green-700 text-white rounded"
             >
               Verify OTP & Sign Up
             </button>
-          </div>
-        ) : (
-          <button
-            onClick={onSubmit}
-            disabled={Object.values(err).some((msg) => msg !== "")}
-            className="mt-5 bg-gray-900 text-white font-semibold rounded-lg p-2.5 sm:min-w-[145%] min-w-[110%]"
-          >
-            {authtype === "signup" ? "Send OTP" : "Sign In"}
-          </button>
-        )}
+          </div> */}
+        {/* // ) :  */}
+        {/* // ( */}
+        <button
+          onClick={onSubmit}
+          disabled={Object.values(err).some((msg) => msg !== "")}
+          className="mt-5 bg-gray-900 text-white font-semibold rounded-lg p-2.5 sm:min-w-[145%] min-w-[110%]"
+        >
+          {authtype === "signup" ? "Send OTP" : "Sign In"}
+        </button>
+        {/* // )} */}
       </div>
     </div>
   );
